@@ -6,6 +6,6 @@ module.exports = {
 	filename: 'mirador-with-annotations.js',
 	library: 'mirador3WithAnnotations',
 	path: path.resolve(__dirname, 'dist-gs-annotations'),
-	publicPath: 'interfaces/intermuse/mirador3/dist/',
+	publicPath: 'ext/structured-image/mirador3/dist/',
     },
 };
