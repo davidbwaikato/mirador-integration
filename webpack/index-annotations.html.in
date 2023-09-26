@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Mirador3 + Annotations Plugin</title>
+
+    <base href="http://localhost:8383/greenstone3/" />
+    <!--
+    <base href="https://intermuse.sowemustthink.space/greenstone3/" />
+    -->
+    
+  </head>
+  <body>
+    <div id="mirador3-viewer"></div>
+    <!-- Note: this URL is web/ext/structured-image/... on the file-system -->
+    <!-- And it is the "gs" webpack version, copied to 'dist' -->
+    <script src="ext/structured-image/mirador3/dist/mirador-with-annotations.js" type="text/javascript"><!--  --></script>
+    <script>
+      <!-- Display the starting Mirador viewer, without any documents loaded in -->
+      mirador3WithAnnotations.initMirador3Viewer('mirador3-viewer');
+    </script>
+  </body>
+</html>
