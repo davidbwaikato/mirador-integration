@@ -2,9 +2,9 @@ import Mirador from 'mirador/dist/es/src/index';
 
 import annotationPlugins   from 'mirador-annotations/es';
 import LocalStorageAdapter from 'mirador-annotations/es/LocalStorageAdapter';
-//import AnnototAdapter from 'mirador-annotations/es/AnnototAdapter';
+import SimpleAnnotationServerV2Adapter from 'mirador-annotations/es/SimpleAnnotationServerV2Adapter';
 
-//const endpointUrl = 'http://127.0.0.1:3000/annotations';
+import { miradorImageToolsPlugin } from 'mirador-image-tools/es';
 
 //
 // Minimal config for a Mirador3 Viewer with an activated Annotations editor plugin
@@ -13,27 +13,20 @@ const minimalMiradorConfig = {
     annotation: {
 	adapter: (canvasId) => new LocalStorageAdapter(`localStorage://?canvasId=${canvasId}`),
 	// adapter: (canvasId) => new AnnototAdapter(canvasId, endpointUrl),
+	//adapter: (canvasId) => new SimpleAnnotationServerV2Adapter(canvasId, endpointUrl),
 	exportLocalStorageAnnotations: true // display annotation JSON export button
     },
-    //id: 'mirador3-viewer',
     window: {
 	defaultSideBarPanel: 'annotations',
 	sideBarOpenByDefault: true
-    },
-    //windows: [{
-//	loadedManifest: 'https://iiif.harvardartmuseums.org/manifests/object/299843',
-    //}],
+    }
 };
 
 
 export function initMirador3Viewer(divID, mainMiradorConfig) {
 
     if (mainMiradorConfig) {
-	mainMiradorConfig.annotation = {
-	    adapter: (canvasId) => new LocalStorageAdapter(`localStorage://?canvasId=${canvasId}`),
-	    // adapter: (canvasId) => new AnnototAdapter(canvasId, endpointUrl),
-	    exportLocalStorageAnnotations: true, // display annotation JSON export button
-	};
+	    
 	// The following would be good when in editing mode!
 /*
 	if (!mainMiradorConfig.window) {
@@ -49,17 +42,19 @@ export function initMirador3Viewer(divID, mainMiradorConfig) {
     }
     
     mainMiradorConfig.id = divID;
-    
-    //mainMiradorConfig.windows =  [{
-//	//loadedManifest: 'https://iiif.harvardartmuseums.org/manifests/object/299843'
-//	loadedManifest: manifestURL
-  //  }];    
-	    
-    let mirador3_viewer = Mirador.viewer(mainMiradorConfig, [...annotationPlugins]);
 
+    let mirador3_viewer;
+    if (mainMiradorConfig.annotation) {
+	mirador3_viewer = Mirador.viewer(mainMiradorConfig, [...miradorImageToolsPlugin,...annotationPlugins]);
+    }
+    else {
+	mirador3_viewer = Mirador.viewer(mainMiradorConfig, [...miradorImageToolsPlugin]);
+    }
+    
     return mirador3_viewer;
 }
 
+export { LocalStorageAdapter, SimpleAnnotationServerV2Adapter }
 
 
 
